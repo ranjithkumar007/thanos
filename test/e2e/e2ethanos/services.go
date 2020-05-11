@@ -77,7 +77,7 @@ func NewPrometheus(sharedDir string, name string, config, promImage string) (*e2
 		e2e.NewReadinessProbe(9090, "/-/ready", 200),
 		9090,
 	)
-	prom.SetUser("root")
+	prom.SetUser(strconv.Itoa(os.Getuid()))
 	prom.SetBackoff(defaultBackoffConfig)
 
 	return prom, container, nil
@@ -212,6 +212,7 @@ func NewReceiver(sharedDir string, networkName string, name string, replicationF
 		9091,
 		81,
 	)
+	receiver.SetUser(strconv.Itoa(os.Getuid()))
 	receiver.SetBackoff(defaultBackoffConfig)
 
 	return receiver, nil
@@ -297,7 +298,7 @@ receivers:
 		e2e.NewReadinessProbe(80, "/-/ready", 200),
 		80,
 	)
-	s.SetUser("root")
+	s.SetUser(strconv.Itoa(os.Getuid()))
 	s.SetBackoff(defaultBackoffConfig)
 
 	return s, nil
